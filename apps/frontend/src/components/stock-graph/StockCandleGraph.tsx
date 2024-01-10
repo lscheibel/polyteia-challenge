@@ -1,7 +1,7 @@
 import { isSameDay } from 'date-fns/isSameDay';
 import { StockDetailsQueryData } from '../../apollo/queries/stockDetailsQuery.ts';
 import { ResponsiveBoxPlot } from '@nivo/boxplot';
-import { commonProps, dateFormatter } from './tools.ts';
+import { dateFormatter } from './tools.ts';
 import { Theme } from '@nivo/core';
 
 export interface StockCandleGraphProps {
@@ -36,7 +36,6 @@ const StockCandleGraph = ({ data }: StockCandleGraphProps) => {
 
   return (
     <ResponsiveBoxPlot
-      {...commonProps}
       data={boxPlotData}
       groupBy={'timestamp'}
       indexScale={{ type: 'band', round: false }}
@@ -44,6 +43,7 @@ const StockCandleGraph = ({ data }: StockCandleGraphProps) => {
       padding={0}
       innerPadding={0}
       medianWidth={0}
+      margin={{ top: 5, right: 0, bottom: 50, left: 40 }}
       theme={{ axis: { ticks: { line: { stroke: '#ddd' } } } } as Theme & { translation: any }}
       colors={data => {
         // Each group consists of exactly two data points so this works.
@@ -68,6 +68,7 @@ const StockCandleGraph = ({ data }: StockCandleGraphProps) => {
       }}
       whiskerEndSize={0}
       isInteractive={false}
+      animate={false}
     />
   );
 };

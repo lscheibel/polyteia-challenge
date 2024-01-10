@@ -42,6 +42,8 @@ const StockLineGraph = ({ data }: StockLineGraphProps) => {
         tickSize: 0,
         format: value => `$${value}`,
       }}
+      isInteractive={false}
+      animate={false}
     />
   );
 };

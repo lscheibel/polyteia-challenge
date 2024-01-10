@@ -1,5 +1,7 @@
 ## Polyteia Challenge
 
+![Screenshot of app](./screenshot.jpg)
+
 ### Start-Up
 
 Run `docker compose -f=docker-compose.dev.yml up -d` to start up a `mongodb` instance.

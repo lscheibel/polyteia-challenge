@@ -1,0 +1,17 @@
+.label {
+  position: relative;
+  padding: 0.5rem;
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  display: flex;
+  place-items: center;
+}
+
+.isChecked {
+  border-color: var(--black);
+}
+
+.input {
+  position: absolute;
+  visibility: hidden;
+}

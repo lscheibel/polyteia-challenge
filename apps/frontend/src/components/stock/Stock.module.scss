@@ -1,0 +1,23 @@
+.stockGraph {
+  height: 50vh;
+
+  svg {
+    animation: fade-in 250ms forwards ease;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.trustWarning {
+  display: block;
+  text-align: right;
+  color: #bd1313;
+  font-weight: 700;
+}

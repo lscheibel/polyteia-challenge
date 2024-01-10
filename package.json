@@ -1,0 +1,21 @@
+{
+  "name": "polyteia-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "engines": {
+    "node": ">= 20"
+  },
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "node apps/backend/dist/main"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "author": "Lennard Scheibel",
+  "devDependencies": {
+    "prettier": "^3.1.1",
+    "turbo": "^1.11.3"
+  }
+}

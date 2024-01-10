@@ -1,0 +1,13 @@
+services:
+  polyteia-mongodb:
+    image: mongo:latest
+    environment:
+      MONGODB_DATABASE: data
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: pw
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongodata:/data/db
+volumes:
+  mongodata:

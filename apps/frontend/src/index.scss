@@ -1,0 +1,52 @@
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+:root {
+  font-family: Inter, system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--black);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --black: rgba(0, 0, 0, 0.82);
+  --soft: rgba(0, 0, 0, 0.6);
+  --radius: 0.5rem;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+
+  @media screen and (max-width: 1024px) {
+    padding: 1rem;
+  }
+}
+
+*::selection {
+  color: black;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 2em;
+  line-height: 1.1;
+}

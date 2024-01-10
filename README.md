@@ -29,3 +29,7 @@ Feel free to use any visualization library that you choose, e.g. **Nivo**. The i
 - switch the type of the graph, e.g. from a line chart to a bar chart.
 
 Test coverage is, of course, not required.
+
+
+https://github.com/lscheibel/polyteia-challenge/assets/44374653/5c9be497-a272-43bb-883f-91f6a76fbf88
+

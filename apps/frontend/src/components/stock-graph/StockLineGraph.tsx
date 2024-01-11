@@ -27,7 +27,7 @@ const StockLineGraph = ({ data }: StockLineGraphProps) => {
       theme={{ axis: { ticks: { line: { stroke: '#ddd' } } } }}
       colors={'#222'}
       lineWidth={3}
-      pointSize={0}
+      enablePoints={false}
       axisBottom={{
         tickValues: lineChartData[0].data
           .map(v => v.x)
@@ -42,7 +42,8 @@ const StockLineGraph = ({ data }: StockLineGraphProps) => {
         tickSize: 0,
         format: value => `$${value}`,
       }}
-      isInteractive={false}
+      isInteractive={true}
+      enableCrosshair={true}
       animate={false}
     />
   );

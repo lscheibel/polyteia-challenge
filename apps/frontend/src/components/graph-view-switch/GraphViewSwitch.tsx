@@ -2,6 +2,8 @@ import RadioInput from '../radio-input/RadioInput.tsx';
 import IconLineChart from '../icons/LineChart.tsx';
 import IconCandleChart from '../icons/CandleChart.tsx';
 import { setStockGraphPreferences, useStockGraphPreferences } from '../../state/stockGraphPreferences.ts';
+import { GraphTypes } from '../stock-graph/tools.ts';
+import IconLineBreakChart from '../icons/LineBreakChart.tsx';
 
 const GraphViewSwitch = () => {
   const graphType = useStockGraphPreferences().view;
@@ -14,8 +16,8 @@ const GraphViewSwitch = () => {
       <RadioInput
         title={'Display as line chart'}
         name={'graphType'}
-        value={'line'}
-        checked={graphType === 'line'}
+        value={GraphTypes.Line}
+        checked={graphType === GraphTypes.Line}
         onChange={setGraphType}
       >
         <IconLineChart />
@@ -23,11 +25,20 @@ const GraphViewSwitch = () => {
       <RadioInput
         title={'Display as candle chart'}
         name={'graphType'}
-        value={'candle'}
-        checked={graphType === 'candle'}
+        value={GraphTypes.Candle}
+        checked={graphType === GraphTypes.Candle}
         onChange={setGraphType}
       >
         <IconCandleChart />
+      </RadioInput>
+      <RadioInput
+        title={'Display as line break chart'}
+        name={'graphType'}
+        value={GraphTypes.LineBreak}
+        checked={graphType === GraphTypes.LineBreak}
+        onChange={setGraphType}
+      >
+        <IconLineBreakChart />
       </RadioInput>
     </div>
   );

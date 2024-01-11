@@ -1,7 +1,7 @@
 import { isSameDay } from 'date-fns/isSameDay';
 import { StockDetailsQueryData } from '../../apollo/queries/stockDetailsQuery.ts';
 import { ResponsiveBoxPlot } from '@nivo/boxplot';
-import { dateFormatter } from './tools.ts';
+import { dateFormatter, DOWN_COLOR, UP_COLOR } from './tools.ts';
 import { Theme } from '@nivo/core';
 
 export interface StockCandleGraphProps {
@@ -9,58 +9,49 @@ export interface StockCandleGraphProps {
 }
 
 const StockCandleGraph = ({ data }: StockCandleGraphProps) => {
-  const UP_COLOR = '#418744';
-  const DOWN_COLOR = '#AB4740';
+  const TIME_RANGE = 60 * 60 * 4; // 4 hours, timestamp is in seconds.
 
-  const boxPlotData: Array<{ value: number; timestamp: number; color: string }> = [];
+  const boxPlotData = data.stock.data.map(entry => {
+    const group = Math.ceil(entry.timestamp / TIME_RANGE);
 
-  data.stock.data.forEach((entry, index, allEntries) => {
-    const previousEntry = allEntries[index - 1];
-    if (!previousEntry) return;
-
-    const color = previousEntry.value > entry.value ? DOWN_COLOR : UP_COLOR;
-
-    // Note: This is a bit of a hack. A more sophisticated solution would actually define a time range in which the data should be aggregated.
-
-    boxPlotData.push({
-      value: previousEntry.value,
-      timestamp: previousEntry.timestamp,
-      color,
-    });
-    boxPlotData.push({
+    return {
       value: entry.value,
-      timestamp: previousEntry.timestamp,
-      color,
-    });
+      timestamp: entry.timestamp,
+      group: group.toString(),
+    };
+  });
+
+  const xAxisTicks = boxPlotData.filter(({ timestamp }, index, all) => {
+    if (index === 0) return false;
+    const previous = all[index - 1].timestamp;
+    return !isSameDay(new Date(previous * 1000), new Date(timestamp * 1000));
   });
 
   return (
     <ResponsiveBoxPlot
       data={boxPlotData}
-      groupBy={'timestamp'}
       indexScale={{ type: 'band', round: false }}
-      quantiles={[0, 0, 0.5, 1, 1]}
+      quantiles={[0, 0.25, 0.5, 0.75, 1]}
       padding={0}
       innerPadding={0}
       medianWidth={0}
       margin={{ top: 5, right: 0, bottom: 50, left: 40 }}
       theme={{ axis: { ticks: { line: { stroke: '#ddd' } } } } as Theme & { translation: any }}
-      colors={data => {
-        // Each group consists of exactly two data points so this works.
-        return boxPlotData[data.groupIndex * 2].color;
+      colors={({ group }) => {
+        // Note: Unfortunately Nivo doesn't expose the stratified data.
+        //  This makes the coloring process rather inefficient, but at least for ~200 items this is no big deal.
+        const groupData = boxPlotData.filter(d => d.group === group);
+        return groupData.at(0)!.value <= groupData.at(-1)!.value ? UP_COLOR : DOWN_COLOR;
       }}
       minValue={0}
       enableGridX={false}
       enableGridY={true}
       axisBottom={{
-        tickValues: data.stock.data
-          .map(v => v.timestamp)
-          .filter((value, index, all) => {
-            if (index === 0) return false;
-            const previous = all[index - 1];
-            return !isSameDay(new Date(previous * 1000), new Date(value * 1000));
-          }),
-        format: value => dateFormatter.format(new Date(value * 1000)),
+        tickValues: xAxisTicks.map(v => +v.group),
+        format: (group: number) => {
+          const date = new Date(group * TIME_RANGE * 1000);
+          return dateFormatter.format(date);
+        },
       }}
       axisLeft={{
         tickSize: 0,
